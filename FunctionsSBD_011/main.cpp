@@ -23,18 +23,33 @@ int function(int a)
 }
 #endif // OVERLOAD_EXAMPLES
 
+#define FILLRAND_OVERLOADED
+
 const int ROWS = 8;
 const int COLS = 5;
 
+#ifdef FILLRAND_OVERLOADED
 void FillRand(int arr[], const int n);
 void FillRand(double arr[], const int n);
 void FillRand(char arr[], const int n);
-void FillRand(int arr[ROWS][COLS], const int m, const int n);
 
-void Print(int arr[], const int n);
-void Print(double arr[], const int n);
-void Print(char arr[], const int n);
-void Print(int arr[ROWS][COLS], const int m, const int n);
+void FillRand(int arr[ROWS][COLS], const int m, const int n);
+void FillRand(double arr[ROWS][COLS], const int m, const int n);
+void FillRand(char arr[ROWS][COLS], const int m, const int n);
+#endif // FILLRAND_OVERLOADED
+#ifndef FILLRAND_OVERLOADED
+template<typename T>
+void FillRand(T arr[], const int n);
+template<typename T>
+void FillRand(T arr[ROWS][COLS], const int m, const int n);
+#endif
+
+
+template<typename T>void Print(T arr[], const int n);
+template<typename T>void Print(T arr[ROWS][COLS], const int m, const int n);
+
+template<typename T>T Sum(T arr[], const int n);
+template<typename T>T Sum(T arr[ROWS][COLS], const int m, const int n);
 
 void main()
 {
@@ -58,8 +73,13 @@ void main()
 	int i_arr_2[ROWS][COLS];
 	FillRand(i_arr_2, ROWS, COLS);
 	Print(i_arr_2, ROWS, COLS);
+
+	char c_arr_2[ROWS][COLS];
+	FillRand(c_arr_2, ROWS, COLS);
+	Print(c_arr_2, ROWS, COLS);
 }
 
+#ifdef FILLRAND_OVERLOADED
 void FillRand(int arr[], const int n)
 {
 	for (int i = 0; i < n; i++)
@@ -92,8 +112,52 @@ void FillRand(int arr[ROWS][COLS], const int m, const int n)
 		}
 	}
 }
+void FillRand(double arr[ROWS][COLS], const int m, const int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			arr[i][j] = double(rand() % 10000)/100;
+		}
+	}
+}
+void FillRand(char arr[ROWS][COLS], const int m, const int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			arr[i][j] = rand();
+		}
+	}
+}
+#endif // FILLRAND_OVERLOADED
+#ifndef FILLRAND_OVERLOADED
+template<typename T>
+void FillRand(T arr[], const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = rand() % 25600;
+		arr[i] /= 100;
+	}
+}
+template<typename T>
+void FillRand(T arr[ROWS][COLS], const int m, const int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			arr[i][j] = rand() % 25600;
+			arr[i][j] /= 10;
+		}
+	}
+}
+#endif
 
-void Print(int arr[], const int n)
+template<typename T>void Print(T arr[], const int n)
 {
 	for (int i = 0; i < n; i++)
 	{
@@ -101,24 +165,7 @@ void Print(int arr[], const int n)
 	}
 	cout << endl;
 }
-void Print(double arr[], const int n)
-{
-	for (int i = 0; i < n; i++)
-	{
-		cout << arr[i] << "\t";
-	}
-	cout << endl;
-}
-void Print(char arr[], const int n)
-{
-	for (int i = 0; i < n; i++)
-	{
-		cout << arr[i] << "\t";
-	}
-	cout << endl;
-}
-
-void Print(int arr[ROWS][COLS], const int m, const int n)
+template<typename T>void Print(T arr[ROWS][COLS], const int m, const int n)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -128,4 +175,27 @@ void Print(int arr[ROWS][COLS], const int m, const int n)
 		}
 		cout << endl;
 	}
+}
+
+template<typename T>T Sum(T arr[], const int n)
+{
+	T sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		sum += arr[i];
+	}
+	return sum;
+}
+
+template<typename T>T Sum(T arr[ROWS][COLS], const int m, const int n)
+{
+	T sum = 0;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			sum += arr[i][j];
+		}
+	}
+	return sum;
 }
