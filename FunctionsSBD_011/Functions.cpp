@@ -67,3 +67,8 @@ template<typename T>T Sum(T arr[ROWS][COLS], const int m, const int n)
 	}
 	return sum;
 }
+
+template<typename T>T Function(int a, int b)
+{
+	return T();
+}

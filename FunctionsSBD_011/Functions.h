@@ -51,3 +51,5 @@ template<typename T>void Print(T arr[ROWS][COLS], const int m, const int n);
 
 template<typename T>T Sum(T arr[], const int n);
 template<typename T>T Sum(T arr[ROWS][COLS], const int m, const int n);
+
+template<typename T>T Function(int a, int b);

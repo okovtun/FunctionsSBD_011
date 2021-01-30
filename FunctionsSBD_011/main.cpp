@@ -27,5 +27,7 @@ void main()
 	char c_arr_2[ROWS][COLS];
 	FillRand(c_arr_2, ROWS, COLS);
 	Print(c_arr_2, ROWS, COLS);
-}
 
+	Function<int>(2, 3);
+
+}
